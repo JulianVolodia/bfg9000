@@ -10,10 +10,15 @@ def list_backends():
     if _backends is None:
         backends = []
         for i in iter_entry_points('bfg9000.backends'):
+            print(i)
             try:
                 backend = i.load()
                 backends.append((i.name, backend))
-            except DistributionNotFound:
+            except DistributionNotFound as e:
+                import traceback
+                traceback.print_exc()
+                print
+                print
                 pass
 
         def sort_key(x):
