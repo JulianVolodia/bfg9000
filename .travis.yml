@@ -35,7 +35,7 @@ before_install:
       fi
     else
       deactivate
-      ${PYTHON} -c "import virtualenv; print(virtualenv.__version__)"
+      virtualenv --version
     fi
 #  - ${PIP} install virtualenv
 #  - virtualenv venv
