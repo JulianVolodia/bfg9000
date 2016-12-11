@@ -37,7 +37,7 @@ before_install:
 #  - ${PIP} install virtualenv
 #  - virtualenv venv
 #  - source venv/bin/activate
-  - ${PIP} install -I pip==8.0.0
+  - ${PIP} install -I pip==7.0.0
   - ${PIP} install -U setuptools
   - ${PYTHON} --version
   - ${PIP} --version
