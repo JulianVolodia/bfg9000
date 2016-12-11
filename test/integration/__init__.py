@@ -95,6 +95,8 @@ class IntegrationTest(unittest.TestCase):
 
         self.stage_src = kwargs.pop('stage_src', False)
         self.backend = kwargs.pop('backend', None)
+        self.env = kwargs.pop('env', None)
+
         unittest.TestCase.__init__(self, *args, **kwargs)
         if self.backend is None:
             return
@@ -159,7 +161,8 @@ class IntegrationTest(unittest.TestCase):
 
         self.assertPopen(
             ['bfg9000', '--debug', 'configure', self.builddir,
-             '--backend', self.backend] + self.extra_args
+             '--backend', self.backend] + self.extra_args,
+            env=self.env, env_update=True
         )
         os.chdir(self.builddir)
 
@@ -167,16 +170,21 @@ class IntegrationTest(unittest.TestCase):
         args = [os.getenv(self.backend.upper(), self.backend)]
         if target:
             args.append(self.target_name(target))
-        return self.assertPopen(args, True)
+        return self.assertPopen(args)
 
     def wait(self, t=1):
         time.sleep(t)
 
-    def assertPopen(self, args, bad=False):
+    def assertPopen(self, args, env=None, env_update=True):
+        if env is not None and env_update:
+            overrides = env
+            env = dict(os.environ)
+            env.update(overrides)
+
         args = [self.target_path(i) for i in args]
         proc = subprocess.Popen(
             args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-            universal_newlines=True
+            env=env, universal_newlines=True
         )
         output = proc.communicate()[0]
         if proc.returncode != 0:
