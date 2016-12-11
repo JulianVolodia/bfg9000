@@ -37,13 +37,14 @@ before_install:
 #  - ${PIP} install virtualenv
 #  - virtualenv venv
 #  - source venv/bin/activate
-  - ${PIP} install -I pip==6.1.1
+  - ${PIP} install -I pip==7.0.0
   - ${PIP} install -U setuptools
-  - ${PYTHON} --version
-  - ${PIP} --version
-  - ${PYTHON} -c "import setuptools; print(setuptools.__version__)"
 install:
   - ${PYTHON} setup.py sdist
   - ${PIP} install dist/bfg9000-0.3.0.dev0.tar.gz
 script:
+  - ${PYTHON} --version
+  - ${PIP} --version
+  - ${PYTHON} -c "import setuptools; print(setuptools.__version__)"
+  - ${PYTHON} -c "import virtualenv; print(virtualenv.__version__)"
   - 9k --help
