@@ -33,6 +33,9 @@ before_install:
         brew update
         brew install ${PYTHON}
       fi
+    else
+      deactivate
+      ${PYTHON} -c "import virtualenv; print(virtualenv.__version__)"
     fi
 #  - ${PIP} install virtualenv
 #  - virtualenv venv
@@ -46,5 +49,4 @@ script:
   - ${PYTHON} --version
   - ${PIP} --version
   - ${PYTHON} -c "import setuptools; print(setuptools.__version__)"
-  - ${PYTHON} -c "import virtualenv; print(virtualenv.__version__)"
   - 9k --help
